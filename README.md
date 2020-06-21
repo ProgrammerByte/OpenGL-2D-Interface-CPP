@@ -60,4 +60,6 @@ The engine contains the following public methods:
   
 -void resizeText(float size) - Changes the size of text which could be rendered next. The size parameter determines the width of the text using the same aforementioned coordinate system (the height of the texted is also scaled accordingy).  
   
--void renderString
+-void renderString(float xPos, float yPos, char* contents, int length) - Renders a given string (consisting only of 0-9 and A-Z characters including spaces) on screen. The xPos and yPos parameters determine the bottom left coordinate of the text, and the length parameter is the length of the string to be rendered (in characters, including spaces).  
+
+-~Graphics2D() - The deconstructor of the Graphics2D object.
