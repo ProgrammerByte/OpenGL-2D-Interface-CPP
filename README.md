@@ -1,7 +1,7 @@
 # OpenGL-2D-Interface-CPP  
 This is a project which has the intention of providing a suitable interface for programmers to create shapes and text (with support for keyboard and mouse input) on a window with relative ease in C++ (however doesn't support textures or sound). This project was made using OpenGL, and heavily inspired by other graphics libraries such as LibGDX (Java) which achieve abstraction to a sufficient extent.  
   
-The coordinate system for this engine is between (-aspectRatio, -1) and (aspectRatio, 1), where aspectRatio = resX / resY. All colour values are between 0 and 1 inclusive (when determining red, green, and blue components of a given colour). The only text characters currently supported are 0-9 and A-Z (capital letters only) as the text rendering system operates on a 14-segment display.  
+The coordinate system for this engine is between (-aspectRatio, -1) and (aspectRatio, 1), where aspectRatio = resX / resY. All colour values are between 0 and 1 inclusive (when determining red, green, and blue components of a given colour). The only text characters currently supported are 0-9 and A-Z (capital letters only) as the text rendering system operates on a 14-segment display. Including "\n" in an input string for text rendering places subsequent letters on the next line.  
   
 There are three different render types which this engine supports (0 = filled, 1 = line, 2 = filled with an outline). Fill colour, line colour, and text colour are all stored separatedly and used when needed.  
   
@@ -62,4 +62,18 @@ The engine contains the following public methods:
   
 -void renderString(float xPos, float yPos, char* contents, int length) - Renders a given string (consisting only of 0-9 and A-Z characters including spaces) on screen. The xPos and yPos parameters determine the bottom left coordinate of the text, and the length parameter is the length of the string to be rendered (in characters, including spaces).  
 
--~Graphics2D() - The deconstructor of the Graphics2D object.
+-~Graphics2D() - The deconstructor of the Graphics2D object.  
+  
+  
+  
+A template program for this engine is as follows:  
+  
+#include "Graphics2D.h"  
+  
+int main() {  
+  Graphics2D engine = Graphics2D(960, 540, "Application", false);  
+  while (engine.shouldClose() == false) {  
+    engine.circle(0, 0, 0.9);  
+    engine.clear();  
+  }  
+}  
