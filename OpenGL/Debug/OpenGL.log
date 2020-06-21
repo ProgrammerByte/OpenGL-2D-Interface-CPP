@@ -1,0 +1,8 @@
+﻿  Application.cpp
+C:\Users\Thomas Popay\source\repos\OpenGL\src\Application.cpp(21,45): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Thomas Popay\source\repos\OpenGL\src\Application.cpp(23,27): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Thomas Popay\source\repos\OpenGL\src\Application.cpp(27,85): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\Thomas Popay\source\repos\OpenGL\src\Application.cpp(73,26): warning C4305: '+=': truncation from 'double' to 'float'
+C:\Users\Thomas Popay\source\repos\OpenGL\src\Application.cpp(83,32): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Thomas Popay\source\repos\OpenGL\src\Application.cpp(84,76): warning C4305: 'argument': truncation from 'double' to 'float'
+  OpenGL.vcxproj -> C:\Users\Thomas Popay\source\repos\OpenGL\Debug\OpenGL.exe
