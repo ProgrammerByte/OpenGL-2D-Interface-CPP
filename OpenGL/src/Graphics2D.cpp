@@ -264,10 +264,13 @@ void Graphics2D::clear() {
 }
 
 void Graphics2D::line(float x1, float y1, float x2, float y2) { //uses what the current colour is, if type = 0 then the fill colour will be used
+    this->setColour(lineColour[0], lineColour[1], lineColour[2], lineColour[3]); //this is needed as this can be called if the render type is not 1
+
     float positions[] = { x1 * invAspectRatio, y1, x2 * invAspectRatio, y2 };
     glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(float), positions, GL_STATIC_DRAW);
-    //glDrawArrays(GL_TRIANGLES, 0, 3);
     glDrawArrays(GL_LINES, 0, 2);
+
+    this->setColour(fillColour[0], fillColour[1], fillColour[2], fillColour[3]);
 }
 
 void Graphics2D::lineTriangle(float x1, float y1, float x2, float y2, float x3, float y3) {
@@ -444,8 +447,8 @@ void Graphics2D::setCircleVerticesCount(int value) {
 bool Graphics2D::keyPress(int key) {
     return glfwGetKey(window, key);
 }
-bool Graphics2D::mouseButtonPress(int key) {
-    return glfwGetMouseButton(window, key);
+bool Graphics2D::mouseButtonPress(int button) {
+    return glfwGetMouseButton(window, button);
 }
 void Graphics2D::getMousePos(double *xPos, double *yPos) {
     glfwGetCursorPos(window, xPos, yPos);

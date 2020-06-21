@@ -16,7 +16,7 @@ int main() {
 
     Graphics2D engine = Graphics2D(1920 / 2, 1080 / 2, "Application", false);
     //engine.setColour(0, 0, 1, 1);
-    //engine.setLineColour(0, 0, 1, 1);
+    engine.setLineColour(0, 0, 1, 1);
     engine.setFillColour(1, 0, 0, 1);
     engine.setClearColour(0.05, 0.1, 0.25, 1);
     engine.setLineWidth(4);
@@ -82,6 +82,8 @@ int main() {
         }
         engine.circle(0, 0, 0.9);
         engine.renderString(-0.83, -0.1, (char*)text.c_str(), text.length());
+
+       // engine.line(-engine.getAspectRatio(), -1, engine.getAspectRatio(), 1);
         
         //engine.renderChar(-0.9, -0.9, (int)count);
         //engine.renderString(-0.98, 0, (char*)text.c_str(), text.length());

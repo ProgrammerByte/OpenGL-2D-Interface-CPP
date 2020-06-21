@@ -58,7 +58,7 @@ class Graphics2D {
 		int getCircleVerticesCount();
 		void setCircleVerticesCount(int value);
 		bool keyPress(int key);
-		bool mouseButtonPress(int key);
+		bool mouseButtonPress(int button);
 		void getMousePos(double *xPos, double *yPos);
 		void resizeText(float size);
 		void renderString(float xPos, float yPos, char* contents, int length);
