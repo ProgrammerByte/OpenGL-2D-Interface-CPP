@@ -322,16 +322,16 @@ void Graphics2D::rect(float x, float y, float width, float height) {
     float xMax = x + width;
     float yMax = y + height;
     if (renderType == 0) {
-        filledRect(x, y, xMax, yMax);
+        filledRect(x * invAspectRatio, y, xMax * invAspectRatio, yMax);
     }
     else if (renderType == 1) {
-        lineRect(x, y, xMax, yMax);
+        lineRect(x * invAspectRatio, y, xMax * invAspectRatio, yMax);
     }
     else if (renderType == 2) {
         setColour(fillColour[0], fillColour[1], fillColour[2], fillColour[3]);
-        filledRect(x, y, xMax, yMax);
+        filledRect(x * invAspectRatio, y, xMax * invAspectRatio, yMax);
         setColour(lineColour[0], lineColour[1], lineColour[2], lineColour[3]);
-        lineRect(x, y, xMax, yMax);
+        lineRect(x * invAspectRatio, y, xMax * invAspectRatio, yMax);
     }
 }
 
@@ -400,6 +400,9 @@ void Graphics2D::setFillColour(float r, float g, float b, float o) {
     fillColour[1] = g;
     fillColour[2] = b;
     fillColour[3] = o;
+    if (renderType == 0 || renderType == 2) {
+        this->setColour(r, g, b, o);
+    }
 }
 
 void Graphics2D::setLineColour(float r, float g, float b, float o) {
@@ -407,6 +410,9 @@ void Graphics2D::setLineColour(float r, float g, float b, float o) {
     lineColour[1] = g;
     lineColour[2] = b;
     lineColour[3] = o;
+    if (renderType == 1) {
+        this->setColour(r, g, b, o);
+    }
 }
 
 void Graphics2D::setTextColour(float r, float g, float b, float o) {
@@ -511,4 +517,3 @@ void Graphics2D::renderString(float xPos, float yPos, char* contents, int length
 
 
 Graphics2D::~Graphics2D() { cout << "Engine destroyed!" << endl; };
-//};
