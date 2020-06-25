@@ -1,93 +1,153 @@
-//#include <GL/glew.h>
-//#include <GLFW/glfw3.h>
 #include "Graphics2D.h"
+#include "maths.h"
 
 #include <iostream>
 
 using namespace std;
 
+const int xRes = 1920;
+const int yRes = 1080;
+
+int currentMode = 0;
+
+float xStretch = 10;
+float yStretch = 0.1;
+float xMove = 0;
+float yMove = 0;
+
+void reset() {
+	xStretch = 10;
+	yStretch = 0.1;
+	xMove = 0;
+	yMove = 0;
+}
+
+double calcVal(double input) {
+	switch (currentMode) {
+		case 0:
+			return sin(input, 50);
+		case 1:
+			return cos(input, 50);
+		case 2:
+			return tan(input, 50);
+		case 3:
+			return sinh(input, 1000);
+		case 4:
+			return cosh(input, 1000);
+		case 5:
+			return tanh(input, 1000);
+		case 6:
+			return calcExp(input, 1000);
+		case 7:
+			if (input > 0) {
+				return ln(input, 1000);
+			}
+			return -DBL_MAX;
+		case 8:
+			return arcSinh(input, 1000); //BROKEN
+		case 9:
+			return root(input, 2, 1000);
+	}
+	return 0;
+}
+
+void calcGraph(float xCoords[], float yCoords[]) {
+	for (int i = 0; i < xRes; i++) {
+		yCoords[i] = yStretch * calcVal(xStretch * ((double)xCoords[i] - xMove)) + yMove;
+	}
+}
+
+bool input(Graphics2D &engine) {
+	int key = engine.getCurrentKey();
+	if (key != -1) {
+		if (key >= '0' && key <= '9') {
+			currentMode = key - '0';
+			reset();
+		}
+		else {
+			switch (key) {
+				case 'W':
+					yStretch += 0.01;
+					break;
+				case 'S':
+					yStretch -= 0.01;
+					break;
+				case 'D':
+					xStretch -= 0.1;
+					break;
+				case 'A':
+					xStretch += 0.1;
+					break;
+				case GLFW_KEY_UP:
+					yMove += 0.01;
+					break;
+				case GLFW_KEY_DOWN:
+					yMove -= 0.01;
+					break;
+				case GLFW_KEY_LEFT:
+					xMove -= 0.01;
+					break;
+				case GLFW_KEY_RIGHT:
+					xMove += 0.01;
+					break;
+				case 'R':
+					reset();
+					break;
+				case GLFW_KEY_ESCAPE:
+					engine.closeWindow();
+					break;
+			}
+		}
+		//cout << "HELP" << endl;
+		return true;
+	}
+	return false;
+}
+
+
+
 //for now the coordinates system goes from (-aspectRatio, -1) to (aspectRatio, 1)
+const string labels[10] = { "SIN X", "COS X", "TAN X", "SINH X", "COSH X", "TANH X", "EXP X", "LN X", "ARCSINH X", "ROOT X" };
+char* controlText = (char*)"NUMBER KEYS TO SELECT GRAPH \n\nW AND S STRETCH IN Y AXIS \nA AND D STRETCH IN X AXIS \n\nARROW KEYS TRANSLATE GRAPH \n\nR TO RESET TRANSFORMATIONS";
+int controlTextLength = strlen(controlText);
+
 int main() {
-    //float cbt[][3];
-    //cbt = { {0, 1, 2}, {3, 4, 5} };
+	float xCoords[xRes];
+	float yCoords[xRes];
 
+	Graphics2D engine = Graphics2D(xRes, yRes, "Graph", true);
+	engine.setLineWidth(4);
+	engine.resizeText(0.1);
+	float aspectRatio = engine.getAspectRatio();
+	double increment = (double)(2 * (double)aspectRatio) / xRes;
 
+	for (int i = 0; i < xRes; i++) {
+		xCoords[i] = (i * increment) - aspectRatio;
+	}
+	calcGraph(xCoords, yCoords);
 
+	while (engine.shouldClose() == false) {
+		if (engine.keyPress('C')) {
+			engine.renderString(-aspectRatio + 0.01, 0.78, controlText, controlTextLength);
+		}
+		else {
+			engine.renderString(-aspectRatio + 0.01, -0.99, (char*)labels[currentMode].c_str(), labels[currentMode].length());
+			engine.renderString(-aspectRatio + 0.01, 0.78, (char*)"C FOR CONTROLS", 14);
+			engine.setLineWidth(1);
+			engine.setLineColour(0.2, 0.2, 0.2, 1);
+			engine.line(0, -1, 0, 1);
+			engine.line(-aspectRatio, 0, aspectRatio, 0);
+			engine.setLineColour(1, 1, 1, 1);
+			for (int i = 0; i < xRes - 1; i++) {
+				engine.line(xCoords[i], yCoords[i], xCoords[i + 1], yCoords[i + 1]);
+			}
 
-    Graphics2D engine = Graphics2D(1920 / 2, 1080 / 2, "Application", false);
-    //engine.setColour(0, 0, 1, 1);
-    engine.setLineColour(0, 0, 1, 1);
-    engine.setFillColour(1, 0, 0, 1);
-    engine.setClearColour(0.05, 0.1, 0.25, 1);
-    engine.setLineWidth(4);
-    engine.resizeText(0.08);
-    engine.setRenderType(0);
-    //float x = 0;
+			if (input(engine) == true) {
+				calcGraph(xCoords, yCoords);
+			}
+			engine.setLineWidth(4);
+		}
 
-    float coords[][2] = { {0, 0}, {-0.1, 0.1}, {-0.2, 0.8}, {0.2, 0.9}, {0.8, -0.2} };
-    //float** dynamicCoords = engine.convertToDynamic(coords, 5);
-    float count = 3;
-    //engine.setTextColour(0, 0, 1, 1);
-    //string text = "A\nB\n";
-    string text;
-    double xPos, yPos;
-    bool hasBegun = false;
-    while (engine.shouldClose() == false) {
-        if (engine.keyPress(GLFW_KEY_ESCAPE) == true) {
-            engine.closeWindow();
-        }
-        if (engine.keyPress(GLFW_KEY_0) == true) {
-            engine.setRenderType(0);
-        }
-        if (engine.keyPress(GLFW_KEY_1) == true) {
-            engine.setRenderType(1);
-        }
-        if (engine.keyPress(GLFW_KEY_2) == true) {
-            engine.setRenderType(2);
-        }
-        //if (engine.mouseButtonPress(GLFW_MOUSE_BUTTON_1)) {
-         //   cout << "Button 1 pressed" << endl;
-        //}
-        //glfwGetMouseButton
-        //glfwGetMousePos(&xPos, &yPos);
-        //glfwMouse
-        engine.getMousePos(&xPos, &yPos); //THIS IS WORKING BUT A SENSE OF SCALE SHOULD PROBABLY BE ADDED
-        //cout << xPos << "      " << yPos << endl;
-        if (xPos * xPos + yPos * yPos <= 0.9 * 0.9) {
-            engine.setFillColour(0, 1, 0, 1);
-            if (engine.mouseButtonPress(GLFW_MOUSE_BUTTON_1) == true) {
-                hasBegun = true;
-            }
-        }
-        else {
-            engine.setFillColour(1, 0, 0, 1);
-        }
-
-       // engine.triangle(-1.5, -0.5, -1, 0.5, -0.5, -0.5);
-       // x += 0.01;
-        //engine.rect(-0.5, 0, 1.4, 0.8);
-        //engine.line(0, 0, 0.5, 0.1);
-        //engine.polygon(**coords, 5);
-        //engine.polygon(dynamicCoords, 5);
-        if (hasBegun == true) {
-            count += 0.01;
-            //engine.resizeText((float)count / 100);
-            engine.setCircleVerticesCount((int)count);
-            text = "THIS POLYGON HAS \n     ";
-            text.append(to_string((int)count));
-            text.append(" SIDES");
-        }
-        else {
-            text = "CLICK ME TO BEGIN";
-        }
-        engine.circle(0, 0, 0.9);
-        engine.renderString(-0.83, -0.1, (char*)text.c_str(), text.length());
-
-       // engine.line(-engine.getAspectRatio(), -1, engine.getAspectRatio(), 1);
-        
-        //engine.renderChar(-0.9, -0.9, (int)count);
-        //engine.renderString(-0.98, 0, (char*)text.c_str(), text.length());
-        
-        engine.clear();
-    }
+		engine.clear();
+	}
 }

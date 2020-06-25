@@ -4,6 +4,8 @@
 
 #pragma once
 
+//CHANGE - ADDED KEY PRESSES SO THAT A CURRENT KEY PRESS CAN BE STORED
+
 class Graphics2D {
 	private:
 		//static unsigned int compileShader(unsigned int type, string name, const string& source);
@@ -37,8 +39,6 @@ class Graphics2D {
 	public:
 		Graphics2D(unsigned int resX, unsigned int resY, const char* title, bool fullscreen);
 		float** convertToDynamic(float coords[][2], int count);
-		double sin(double x, int iterations);
-		double cos(double x, int iterations);
 		bool shouldClose();
 		void closeWindow();
 		void clear();
@@ -55,6 +55,7 @@ class Graphics2D {
 		void setClearColour(float r, float g, float b, float o);
 		void setLineWidth(float width);
 		float getAspectRatio();
+		int getCurrentKey();
 		int getCircleVerticesCount();
 		void setCircleVerticesCount(int value);
 		bool keyPress(int key);

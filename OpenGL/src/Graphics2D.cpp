@@ -1,4 +1,5 @@
 #include "Graphics2D.h"
+#include "maths.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -17,33 +18,8 @@ float** Graphics2D::convertToDynamic(float coords[][2], int count) { //REQUIRED 
     return result;
 }
 
-double exp(double x, int iterations, bool skip, bool isSin, int multiplier) { //skip is used for trigonometric and hyperbolic functions TODO - MAYBE MOVE THE FOLLOWING MATHS FUNCTIONS TO ELSEWHERE!!!
-    double result = 0;
-    double currentVal = 1;
-    for (int i = 1; i <= iterations; i++) {
-        if (skip == false || (i + isSin) % 2 == 1) {
-            result += currentVal;
-            currentVal *= multiplier;
-        }
-
-        currentVal *= (double)x / i;
-        if (currentVal == 0) {
-            break;
-        }
-    }
-    return result;
-}
-
-double Graphics2D::sin(double x, int iterations) {
-    return exp(x, iterations, true, true, -1);
-}
-
-double Graphics2D::cos(double x, int iterations) {
-    return exp(x, iterations, true, false, -1);
-}
-
 float** Graphics2D::calculateCircleCoords(int value) {
-    float** result = new float*[value];
+    float** result = new float* [value];
     double increment = (double)(2 * 3.14159265358979) / value;
     double currentAngle = 0;
     for (int i = 0; i < value; i++) {
@@ -124,6 +100,11 @@ static unsigned int createShaders(const string& vertexShader, const string& frag
     }
 }
 
+int currentKey = -1; //defines currentKey
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) { //WHERE INPUT IS HANDLED
+    currentKey = key;
+}
+
 //GLFWwindow* window;
 //unsigned int shader;
 
@@ -192,12 +173,12 @@ Graphics2D::Graphics2D(unsigned int resX, unsigned int resY, const char* title, 
 
 
 
-
+    glfwSetKeyCallback(window, keyCallback); //ALLOWS FOR A METHOD TO BE EXECUTED IF ANY KEY HAS BEEN PRESSED
 
     //All following code initialises the text attributes.
     resizeText(0.25);
 
-    bool tempCharacterSet[36][14] = {   {1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0}, //0
+    bool tempCharacterSet[36][14] = { {1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0}, //0
                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0}, //1
                                         {1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0}, //2
                                         {1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0}, //3
@@ -232,8 +213,8 @@ Graphics2D::Graphics2D(unsigned int resX, unsigned int resY, const char* title, 
                                         {0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1}, //W
                                         {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1}, //X
                                         {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0}, //Y
-                                        {1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0}};//Z
-    
+                                        {1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0} };//Z
+
     for (int i = 0; i < 36; i++) {
         for (int x = 0; x < 14; x++) {
             characterSet[i][x] = tempCharacterSet[i][x];
@@ -257,7 +238,7 @@ void Graphics2D::clear() {
 
     glfwSwapBuffers(window);
 
-    /* Poll for and process events */
+    currentKey = -1;
     glfwPollEvents();
 
     glClear(GL_COLOR_BUFFER_BIT); //TODO - THIS MIGHT HAVE TO BE CALLED SEPARATELY
@@ -322,16 +303,16 @@ void Graphics2D::rect(float x, float y, float width, float height) {
     float xMax = x + width;
     float yMax = y + height;
     if (renderType == 0) {
-        filledRect(x * invAspectRatio, y, xMax * invAspectRatio, yMax);
+        filledRect(x * invAspectRatio, y, xMax * invAspectRatio, yMax); //TODO - ADD THE *INVASPECTRATIO TO GITHUB
     }
     else if (renderType == 1) {
-        lineRect(x * invAspectRatio, y, xMax * invAspectRatio, yMax);
+        lineRect(x * invAspectRatio, y, xMax * invAspectRatio, yMax); //AS WELL AS THIS
     }
     else if (renderType == 2) {
         setColour(fillColour[0], fillColour[1], fillColour[2], fillColour[3]);
-        filledRect(x * invAspectRatio, y, xMax * invAspectRatio, yMax);
+        filledRect(x * invAspectRatio, y, xMax * invAspectRatio, yMax); //AND HERE AS WELL
         setColour(lineColour[0], lineColour[1], lineColour[2], lineColour[3]);
-        lineRect(x * invAspectRatio, y, xMax * invAspectRatio, yMax);
+        lineRect(x * invAspectRatio, y, xMax * invAspectRatio, yMax); //AND HERE
     }
 }
 
@@ -410,7 +391,7 @@ void Graphics2D::setLineColour(float r, float g, float b, float o) {
     lineColour[1] = g;
     lineColour[2] = b;
     lineColour[3] = o;
-    if (renderType == 1) {
+    if (renderType == 1) { //TODO - ADD THESE LINES TO GITHUB
         this->setColour(r, g, b, o);
     }
 }
@@ -442,7 +423,7 @@ void Graphics2D::setCircleVerticesCount(int value) {
     if (value >= 3) {
         circleVerticesCount = value;
         circleCoords = calculateCircleCoords(value);
-    }   
+    }
 }
 
 
@@ -453,12 +434,15 @@ void Graphics2D::setCircleVerticesCount(int value) {
 bool Graphics2D::keyPress(int key) {
     return glfwGetKey(window, key);
 }
+int Graphics2D::getCurrentKey() {
+    return currentKey;
+}
 bool Graphics2D::mouseButtonPress(int button) {
     return glfwGetMouseButton(window, button);
 }
-void Graphics2D::getMousePos(double *xPos, double *yPos) {
+void Graphics2D::getMousePos(double* xPos, double* yPos) {
     glfwGetCursorPos(window, xPos, yPos);
-    *xPos = (double)((*xPos * 2) - resX)/ resY;
+    *xPos = (double)((*xPos * 2) - resX) / resY;
     *yPos = 1 - (double)(*yPos * 2) / resY;
 }
 
@@ -517,3 +501,4 @@ void Graphics2D::renderString(float xPos, float yPos, char* contents, int length
 
 
 Graphics2D::~Graphics2D() { cout << "Engine destroyed!" << endl; };
+
