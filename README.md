@@ -53,6 +53,8 @@ The engine contains the following public methods:
 -void setCircleVerticesCount(int value) - Changes the number of vertices used to approximate the shape of a circle. A greater value would allow for more accurate circles to be rendered (when the circle method is called), however would be more computationally expensive to render.  
   
 -bool keyPress(int key) - Determines whether a given key has been pressed given that the key parameter is of the form GLFW_KEY_X (where X is the name of the key in uppercase).  
+
+-int getCurrentKey() - Returns an integer value representing the current key held down. This method returns -1 if no key is currently held down.
   
 -bool mouseButtonPress(int button) - Determines whether a given mouse button has been pressed given that the button parameter is of the form GLFW_MOUSE_BUTTON_X (where X is the name of the button).  
   
