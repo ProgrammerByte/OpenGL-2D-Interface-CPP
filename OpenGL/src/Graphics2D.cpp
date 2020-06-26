@@ -102,7 +102,9 @@ static unsigned int createShaders(const string& vertexShader, const string& frag
 
 int currentKey = -1; //defines currentKey
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) { //WHERE INPUT IS HANDLED
-    currentKey = key;
+    if (glfwGetKey(window, key) == GLFW_PRESS) {
+        currentKey = key;
+    }
 }
 
 //GLFWwindow* window;
