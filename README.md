@@ -28,6 +28,8 @@ The engine contains the following public methods:
   
 -void line(float x1, float y1, float x2, float y2) - Renders a straight line on screen given two coordinate values.  
   
+-void point(float x, float y) - Renders a single point on screen given a single coordinate. Uses the line colour.  
+  
 -void polygon(float** coords, int vertices) - Renders a polygon on screen given that the coords parameter is a two-dimensional float** array of coordinates (i.e. {{0, 0}, {0.2, 0.5}, {0.9, -0.4}} represents a polygon with three vertices) defined either clockwise or anticlockwise. The vertices parameter is an integer which represents how many vertices the given polygon has (i.e. length of the coords array).  
   
 -void circle(float x, float y, float radius) - Renders a circle on screen.  
