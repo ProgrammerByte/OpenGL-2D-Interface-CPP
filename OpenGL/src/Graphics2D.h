@@ -45,6 +45,7 @@ class Graphics2D {
 		void triangle(float x1, float y1, float x2, float y2, float x3, float y3);
 		void rect(float x, float y, float width, float height);
 		void line(float x1, float y1, float x2, float y2);
+		void point(float x, float y);
 		void polygon(float** coords, int vertices);
 		void circle(float x, float y, float radius);
 		unsigned int getRenderType();
