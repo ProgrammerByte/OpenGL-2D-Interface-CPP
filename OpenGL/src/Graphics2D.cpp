@@ -357,6 +357,15 @@ void Graphics2D::circle(float x, float y, float radius) {
     polygon(currentCoords, circleVerticesCount);
 }
 
+void Graphics2D::point(float x, float y) {
+    this->setColour(lineColour[0], lineColour[1], lineColour[2], lineColour[3]);
+    float positions[] = { x, y };
+    glBufferData(GL_ARRAY_BUFFER, 2 * sizeof(float), positions, GL_STATIC_DRAW);
+    glDrawArrays(GL_POINTS, 0, 1);
+
+    this->setColour(fillColour[0], fillColour[1], fillColour[2], fillColour[3]);
+}
+
 
 
 
