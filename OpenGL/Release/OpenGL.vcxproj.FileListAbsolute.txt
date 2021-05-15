@@ -1,1 +1,1 @@
-C:\Users\Thomas Popay\source\repos\OpenGL\Release\OpenGL.exe
+C:\Users\Thomas Popay\source\repos\OpenGL Blank Template\OpenGL\Release\Template.exe

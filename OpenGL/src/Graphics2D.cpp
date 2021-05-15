@@ -8,6 +8,8 @@
 
 using namespace std;
 
+//TODO - DOESN'T CONTAIN ALL FEATURES PRESENT IN GITHUB VERSION
+
 float** Graphics2D::convertToDynamic(float coords[][2], int count) { //REQUIRED FOR THE POLYGON METHOD - TODO - MOVE TO THE GRAPHICS2D CLASS
     float** result = new float* [count];
     for (int i = 0; i < count; i++) {
@@ -19,11 +21,13 @@ float** Graphics2D::convertToDynamic(float coords[][2], int count) { //REQUIRED 
 }
 
 float** Graphics2D::calculateCircleCoords(int value) {
+    currentCoords = new float* [value];
     float** result = new float* [value];
     double increment = (double)(2 * 3.14159265358979) / value;
     double currentAngle = 0;
     for (int i = 0; i < value; i++) {
         result[i] = new float[2];
+        currentCoords[i] = new float[2];
         result[i][0] = cos(currentAngle, 100000);
         result[i][1] = sin(currentAngle, 100000);
         currentAngle += increment;
@@ -348,21 +352,13 @@ void Graphics2D::polygon(float** coords, int vertices) {
 }
 
 void Graphics2D::circle(float x, float y, float radius) {
-    float** currentCoords = new float* [circleVerticesCount]; //calculates the coordinates of the given circle
+    //float** currentCoords = new float* [circleVerticesCount]; //calculates the coordinates of the given circle
     for (int i = 0; i < circleVerticesCount; i++) {
-        currentCoords[i] = new float[2];
+        //currentCoords[i] = new float[2];
         currentCoords[i][0] = (circleCoords[i][0] * radius) + x;
         currentCoords[i][1] = (circleCoords[i][1] * radius) + y;
     }
     polygon(currentCoords, circleVerticesCount);
-}
-
-void Graphics2D::point(float x, float y) {
-    this->setColour(lineColour[0], lineColour[1], lineColour[2], lineColour[3]);
-    float positions[] = {x * invAspectRatio, y};
-    glBufferData(GL_ARRAY_BUFFER, 2 * sizeof(float), positions, GL_STATIC_DRAW);
-    glDrawArrays(GL_POINTS, 0, 1);
-    this->setColour(fillColour[0], fillColour[1], fillColour[2], fillColour[3]);
 }
 
 
@@ -441,10 +437,10 @@ void Graphics2D::setCircleVerticesCount(int value) {
 
 
 //the following is for input
-bool Graphics2D::keyPress(int key) {
+bool Graphics2D::keyPress(int key) { //checks if a specific key has been pressed
     return glfwGetKey(window, key);
 }
-int Graphics2D::getCurrentKey() {
+int Graphics2D::getCurrentKey() { //waits continuously for keyboard input
     return currentKey;
 }
 bool Graphics2D::mouseButtonPress(int button) {
@@ -476,12 +472,12 @@ void Graphics2D::renderChar(float xPos, float yPos, int index) {
     }
 }
 
-void Graphics2D::renderString(float xPos, float yPos, char* contents, int length) {
+void Graphics2D::renderString(float xPos, float yPos, string contents) {
     setColour(textColour[0], textColour[1], textColour[2], textColour[3]);
 
     float xOffset = 0; //allows multiple characters to be placed next to one another
     float yOffset = 0; //for new lines
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < contents.size(); i++) {
         if (isdigit(contents[i])) {
             renderChar(xPos + xOffset, yPos + yOffset, (int)contents[i] - '0');
         }
@@ -511,4 +507,3 @@ void Graphics2D::renderString(float xPos, float yPos, char* contents, int length
 
 
 Graphics2D::~Graphics2D() { cout << "Engine destroyed!" << endl; };
-

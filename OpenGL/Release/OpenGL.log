@@ -1,16 +1,16 @@
-﻿  Application.cpp
-C:\Users\Thomas Popay\source\repos\OpenGL\src\Application.cpp(21,45): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Thomas Popay\source\repos\OpenGL\src\Application.cpp(23,27): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Thomas Popay\source\repos\OpenGL\src\Application.cpp(27,85): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\Thomas Popay\source\repos\OpenGL\src\Application.cpp(73,26): warning C4305: '+=': truncation from 'double' to 'float'
-C:\Users\Thomas Popay\source\repos\OpenGL\src\Application.cpp(81,20): warning C4129: 'T': unrecognized character escape sequence
-C:\Users\Thomas Popay\source\repos\OpenGL\src\Application.cpp(83,32): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Thomas Popay\source\repos\OpenGL\src\Application.cpp(84,76): warning C4305: 'argument': truncation from 'double' to 'float'
+﻿  Graphics2D.cpp
+C:\Users\Thomas Popay\source\repos\OpenGL Blank Template\OpenGL\src\Graphics2D.cpp(31,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Thomas Popay\source\repos\OpenGL Blank Template\OpenGL\src\Graphics2D.cpp(32,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Thomas Popay\source\repos\OpenGL Blank Template\OpenGL\src\Graphics2D.cpp(480,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Thomas Popay\source\repos\OpenGL Blank Template\OpenGL\src\Graphics2D.cpp(485,49): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Thomas Popay\source\repos\OpenGL Blank Template\OpenGL\src\Graphics2D.cpp(486,43): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Thomas Popay\source\repos\OpenGL Blank Template\OpenGL\src\Graphics2D.cpp(491,45): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+  Application.cpp
+  maths.cpp
+  Previous IPDB not found, fall back to full compilation.
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
   Generating code
-  1 of 132 functions ( 0.8%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  All 95 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
-glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'C:\Users\Thomas Popay\source\repos\OpenGL\Release\vc120.pdb'; linking object as if no debug info
-  OpenGL.vcxproj -> C:\Users\Thomas Popay\source\repos\OpenGL\Release\OpenGL.exe
+glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'C:\Users\Thomas Popay\source\repos\OpenGL Blank Template\OpenGL\Release\vc120.pdb'; linking object as if no debug info
+  OpenGL.vcxproj -> C:\Users\Thomas Popay\source\repos\OpenGL Blank Template\OpenGL\Release\Template.exe
