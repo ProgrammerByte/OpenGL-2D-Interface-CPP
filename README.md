@@ -5,7 +5,9 @@ The coordinate system for this engine is between (-aspectRatio, -1) and (aspectR
   
 There are three different render types which this engine supports (0 = filled, 1 = line, 2 = filled with an outline). Fill colour, line colour, and text colour are all stored separatedly and used when needed.  
   
-The main method contains a sample program when executed produces a clickble circle on the window. When the circle is clicked numerous regular polygons are created and text appears inside of the polygons to state how many edges that polygon has.  
+The main cpp file contains a basic framework which allows for a window to be created and constantly refreshed. From here you can use the following methods to render onto this window.  
+  
+This repository contains a sample program when executed produces a clickble circle on the window. When the circle is clicked numerous regular polygons are created and text appears inside of the polygons to state how many edges that polygon has. This program is here to demonstrate how this interface should be used.  
   
 The engine contains the following public methods:  
 -Graphics2D(unsigned int resX, unsigned int resY, const char* title, bool fullscreen) - Is the constructor for the engine. The parameters resX and resY refer to the size of the window in pixels (in the x and y direction respectively), title is the title of the window, and fullscreen determines whether the window will be windowed or fullscreen.  
@@ -64,20 +66,10 @@ The engine contains the following public methods:
   
 -void resizeText(float size) - Changes the size of text which could be rendered next. The size parameter determines the width of the text using the same aforementioned coordinate system (the height of the texted is also scaled accordingy).  
   
--void renderString(float xPos, float yPos, string contents, int length) - Renders a given string (consisting only of 0-9 and A-Z characters including spaces) on screen. The xPos and yPos parameters determine the bottom left coordinate of the text, and the length parameter is the length of the string to be rendered (in characters, including spaces).  
-
+-void renderString(float xPos, float yPos, string contents) - Renders a given string (consisting only of 0-9 and A-Z characters including spaces) on screen. The xPos and yPos parameters determine the bottom left coordinate of the text.
+  
 -~Graphics2D() - The deconstructor of the Graphics2D object.  
   
   
   
-A template program for this engine is as follows:  
-  
-#include "Graphics2D.h"  
-  
-int main() {  
-  Graphics2D engine = Graphics2D(960, 540, "Application", false);  
-  while (engine.shouldClose() == false) {  
-    engine.circle(0, 0, 0.9);  
-    engine.clear();  
-  }  
-}  
+Last updated 15/05/21 - renderString now takes a string as a parameter instead of a char*, and a memory leak has been fixed regarding the circle method.
